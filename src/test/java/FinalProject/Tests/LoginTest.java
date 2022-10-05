@@ -17,11 +17,40 @@ public class LoginTest extends BaseTest {
 
 
 
- /*   @Test
+     @Test
     public void loginTest1() {
+         homePage.goToLoginPage();
+         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
+         String url = driver.getCurrentUrl();
+         String actualResult = url;
+         Assert.assertEquals(actualResult,expectedResult);
+         try {
+             Thread.sleep(2000);
+         } catch (InterruptedException e) {
+             throw new RuntimeException(e);
+         }
+     }
 
-    }
-*/
+     @Test
+     public void loginTest2() {
+         homePage.goToLoginPage();
+         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+         String expectedResult = "email";
+         String actualResult = loginPage.getEmailField().getAttribute("type");
+         Assert.assertEquals(actualResult,expectedResult);
+         String expectedResult2 = "password";
+         String actualResult2 = loginPage.getPasswordField().getAttribute("type");
+         Assert.assertEquals(actualResult2,expectedResult2);
+         try {
+             Thread.sleep(2000);
+         } catch (InterruptedException e) {
+             throw new RuntimeException(e);
+         }
+
+     }
+
+
     @Test
     public void loginTest5() {
         //driver.manage().deleteAllCookies();
