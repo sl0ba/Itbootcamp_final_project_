@@ -11,6 +11,8 @@ public class LoginPage extends HomePage{
     private  By passwordField = By.id("password");
     private  By loginButton = By.xpath("//*[@id=\"app\"]/div/main/div/div[2]/div/div/div[3]/span/form/div/div[3]/button/span");
 
+
+
     private Faker faker = new Faker();
     public LoginPage (WebDriver driver, WebDriverWait driverWait) {super(driver,driverWait);}
 
