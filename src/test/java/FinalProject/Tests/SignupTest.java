@@ -11,7 +11,7 @@ public class SignupTest extends BaseTest{
 
     @Test
     public void signupTest1 () {
-        homePage.goTosignupPage();
+        homePage.goToSignupPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/signup";
         String url = driver.getCurrentUrl();
@@ -21,7 +21,7 @@ public class SignupTest extends BaseTest{
 
     @Test
     public void signupTest2 () {
-        homePage.goTosignupPage();
+        homePage.goToSignupPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String expectedResult = "email";
         String actualResult = signupPage.getEmailField().getAttribute("type");
@@ -46,7 +46,7 @@ public class SignupTest extends BaseTest{
 
     @Test
     public void signupTest3 () {
-        homePage.goTosignupPage();
+        homePage.goToSignupPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         signupPage.signup();
         WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[3]/div/div/div/div/div[1]"));
@@ -62,7 +62,7 @@ public class SignupTest extends BaseTest{
 
     @Test
     public void signupTest4 () {
-        homePage.goTosignupPage();
+        homePage.goToSignupPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         signupPage.signupStudent();
 

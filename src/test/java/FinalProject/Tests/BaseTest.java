@@ -1,9 +1,6 @@
 package FinalProject.Tests;
 
-import FinalProject.Pages.AdminCitiesPage;
-import FinalProject.Pages.HomePage;
-import FinalProject.Pages.LoginPage;
-import FinalProject.Pages.SignupPage;
+import FinalProject.Pages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,6 +19,9 @@ public class BaseTest {
     protected SignupPage signupPage;
 
     protected AdminCitiesPage adminCitePage;
+    protected AuthRoutePage authRoutePage;
+    protected LocalePage localePage;
+    protected ProfilePage profilePage;
 
     @BeforeClass
     public void before() {
@@ -30,9 +30,13 @@ public class BaseTest {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         homePage = new HomePage(driver, driverWait);
-        loginPage = new LoginPage(driver,driverWait);
-        signupPage = new SignupPage(driver,driverWait);
-        adminCitePage = new AdminCitiesPage(driver,driverWait);
+        loginPage = new LoginPage(driver, driverWait);
+        signupPage = new SignupPage(driver, driverWait);
+        adminCitePage = new AdminCitiesPage(driver, driverWait);
+        authRoutePage = new AuthRoutePage(driver, driverWait);
+        localePage = new LocalePage(driver, driverWait);
+        profilePage = new ProfilePage(driver, driverWait);
+
     }
 
     @BeforeMethod
@@ -44,8 +48,11 @@ public class BaseTest {
 
 
     }
+
     @AfterClass
-    public void affterclass() {driver.quit();}
+    public void affterclass() {
+        driver.quit();
+    }
 
 
 }

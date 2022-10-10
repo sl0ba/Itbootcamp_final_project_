@@ -11,6 +11,7 @@ public class AdminCitiesTest extends BaseTest {
 
     //getCityName().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
    /*
+   Succes /delete message
    wait.until(ExpectedConditions.textToBe(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"),
             "Saved successfully\nCLOSE"));
     WebElement messageBox = driver.findElement (By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
