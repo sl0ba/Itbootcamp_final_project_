@@ -23,10 +23,11 @@ public class BasePage {
     }
 
     public WebDriverWait getDriverWait() {
-        return new WebDriverWait(driver, Duration.ofSeconds(10));
+        return driverWait;
     }
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
     }
+
 }

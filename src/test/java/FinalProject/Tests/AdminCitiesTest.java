@@ -9,124 +9,86 @@ import java.time.Duration;
 
 public class AdminCitiesTest extends BaseTest {
 
-    //getCityName().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
-   /*
-   Succes /delete message
-   wait.until(ExpectedConditions.textToBe(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"),
-            "Saved successfully\nCLOSE"));
-    WebElement messageBox = driver.findElement (By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
-
-    */
-
-    @Test(priority = 1)
-    public void adminCitiesTest1() {
+    @Test
+    public void VisitsTheAdminCitiesPageAndListCities() {
         homePage.goToLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         loginPage.login();
-        adminCitePage.getAdminButton().click();
-        adminCitePage.getCitiesButton().click();
+        adminCitesPage.getAdminButton().click();
+        adminCitesPage.getCitiesButton().click();
 
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/admin/cities";
-        String url = driver.getCurrentUrl();
-        String actualResult = url;
+        String actualResult = driver.getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
 
+        Assert.assertTrue(adminCitesPage.getLogoutButton().isDisplayed());
 
-        Assert.assertTrue(adminCitePage.getLogoutButton().isDisplayed());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        adminCitePage.getLogoutButton().click();
-
+        adminCitesPage.getLogoutButton().click();
     }
 
-    @Test(priority = 2)
-    public void adminCitiesTest2() {
+    @Test
+    public void createNewCity() {
         homePage.goToLoginPage();
         loginPage.login();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        adminCitePage.getAdminButton().click();
-        adminCitePage.getCitiesButton().click();
-        adminCitePage.createNewCity();
+        adminCitesPage.getAdminButton().click();
+        adminCitesPage.getCitiesButton().click();
+        adminCitesPage.createNewCity();
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        WebElement message = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
         String expectedResult = ("Saved successfully");
-        String actualResult = message.getText();
+        String actualResult = adminCitesPage.getMessageSaved().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
 
-        adminCitePage.getLogoutButton().click();
+        adminCitesPage.getLogoutButton().click();
     }
 
-    @Test(priority = 3)
-    public void adminCitiesTest3() {
-        //*[@id="app"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div
+    @Test(dependsOnMethods = {"createNewCity"})
+    public void editCity() {
         homePage.goToLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         loginPage.login();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        adminCitePage.getAdminButton().click();
-        adminCitePage.getCitiesButton().click();
-        adminCitePage.editCity();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        WebElement message = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div"));
+        adminCitesPage.getAdminButton().click();
+        adminCitesPage.getCitiesButton().click();
+        adminCitesPage.editCity();
+
         String expectedResult = ("Saved successfully");
-        String actualResult = message.getText();
+        String actualResult = adminCitesPage.getMessageSaved().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
 
-        adminCitePage.getLogoutButton().click();
+        adminCitesPage.getLogoutButton().click();
 
     }
 
-    @Test (priority = 4)
-    public void adminCitiesTest4() {
+    @Test(dependsOnMethods = {"createNewCity","editCity"})
+    public void searchCity() {
         homePage.goToLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         loginPage.login();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        adminCitePage.getAdminButton().click();
-        adminCitePage.getCitiesButton().click();
-        adminCitePage.searchCity();
+        adminCitesPage.getAdminButton().click();
+        adminCitesPage.getCitiesButton().click();
+        adminCitesPage.searchCity();
 
-        WebElement cityName = driver.findElement(By.xpath("//*[@id=\"app\"]/div/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]"));
-        String expectedResult = (adminCitePage.getEditCity());
-        String actualResult = cityName.getText();
+        String expectedResult = (adminCitesPage.getEditCity());
+        String actualResult = adminCitesPage.getCityName().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
 
-        adminCitePage.getLogoutButton().click();
+        adminCitesPage.getLogoutButton().click();
     }
 
-    @Test (priority = 5)
-    public void adminCitiesTest5() {
+    @Test(dependsOnMethods = {"createNewCity", "editCity", "searchCity"})
+    public void deleteCity() {
         homePage.goToLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         loginPage.login();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        adminCitePage.getAdminButton().click();
-        adminCitePage.getCitiesButton().click();
-        adminCitePage.searchCity();
+        adminCitesPage.getAdminButton().click();
+        adminCitesPage.getCitiesButton().click();
+        adminCitesPage.searchCity();
 
-        WebElement cityName = driver.findElement(By.xpath("//*[@id=\"app\"]/div/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]"));
-        String expectedResult = (adminCitePage.getEditCity());
-        String actualResult = cityName.getText();
-        Assert.assertTrue(actualResult.contains(expectedResult));
+        String expectedResultCityName = (adminCitesPage.getEditCity());
+        String actualResultCityName = adminCitesPage.getCityName().getText();
+        Assert.assertTrue(actualResultCityName.contains(expectedResultCityName));
 
-        adminCitePage.deleteCity();
+        adminCitesPage.deleteCity();
         WebElement message = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div"));
-        String expectedResult2 = ("Deleted successfully");
-        String actualResult2 = message.getText();
-        Assert.assertTrue(actualResult2.contains(expectedResult2));
+        String expectedResultMessageDeleted = ("Deleted successfully");
+        String actualResultMessageDeleted = adminCitesPage.getMessageDeleted().getText();
+        Assert.assertTrue(actualResultMessageDeleted.contains(expectedResultMessageDeleted));
 
+        adminCitesPage.getLogoutButton().click();
     }
 }

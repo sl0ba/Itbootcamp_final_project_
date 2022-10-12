@@ -2,6 +2,7 @@ package FinalProject.Tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -10,130 +11,91 @@ import java.time.Duration;
 public class LoginTest extends BaseTest {
 
 
-
-
-     @Test
-    public void loginTest1() {
-         homePage.goToLoginPage();
-         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
-         String url = driver.getCurrentUrl();
-         String actualResult = url;
-         Assert.assertEquals(actualResult,expectedResult);
-         try {
-             Thread.sleep(2000);
-         } catch (InterruptedException e) {
-             throw new RuntimeException(e);
-         }
-     }
-
-     @Test
-     public void loginTest2() {
-         homePage.goToLoginPage();
-         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-         String expectedResult = "email";
-         String actualResult = loginPage.getEmailField().getAttribute("type");
-         Assert.assertEquals(actualResult,expectedResult);
-         String expectedResult2 = "password";
-         String actualResult2 = loginPage.getPasswordField().getAttribute("type");
-         Assert.assertEquals(actualResult2,expectedResult2);
-         try {
-             Thread.sleep(2000);
-         } catch (InterruptedException e) {
-             throw new RuntimeException(e);
-         }
-
-     }
-
-
-     @Test
-     public void loginTest3() {
-         homePage.goToLoginPage();
-         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-         loginPage.fakeLogin();
-         WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"));
-         String expectedResult = ("User does not exists");
-         String actualResult = errorMessage.getText();
-         Assert.assertTrue(actualResult.contains(expectedResult));
-
-         String expectedResult2 = ("https://vue-demo.daniel-avellaneda.com/login");
-         String url = driver.getCurrentUrl();
-         String actualResult2 = url;
-         Assert.assertEquals(actualResult2, expectedResult2);
-
-         try {
-             Thread.sleep(3000);
-         } catch (InterruptedException e) {
-             throw new RuntimeException(e);
-         }
-     }
-
-     @Test
-     public void loginTest4() {
-         homePage.goToLoginPage();
-         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-         loginPage.fakeLogin2("admin@admin.com");
-         WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li"));
-         String expectedResult = ("Wrong password");
-         String actualResult = String.valueOf(errorMessage.getText());
-         Assert.assertEquals(actualResult, expectedResult);
-
-         String expectedResult2 = ("https://vue-demo.daniel-avellaneda.com/login");
-         String url = driver.getCurrentUrl();
-         String actualResult2 = url;
-         Assert.assertEquals(actualResult2, expectedResult2);
-     }
-
     @Test
-    public void loginTest5() {
+    public void visitTheLoginPage() {
         homePage.goToLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        loginPage.login();
-        String expectedResult = "https://vue-demo.daniel-avellaneda.com/home";
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        String url = driver.getCurrentUrl();
-        String actualResult = url;
-        Assert.assertEquals(actualResult,expectedResult);
+        String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
+        String actualResult = driver.getCurrentUrl();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void loginTest6() {
+    public void checksInputTypes() {
         homePage.goToLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        loginPage.login();
-        WebElement logoutButton = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]/span"));
-        Assert.assertEquals(true, logoutButton.isDisplayed());
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        logoutButton.click();
 
-        String expectedResult = ("https://vue-demo.daniel-avellaneda.com/login");
-        String url = driver.getCurrentUrl();
-        String actualResult = url;
+        String expectedResultEmail = "email";
+        String actualResultEmail = loginPage.getEmailField().getAttribute("type");
+        Assert.assertEquals(actualResultEmail, expectedResultEmail);
+
+        String expectedResultPassword = "password";
+        String actualResultPassword = loginPage.getPasswordField().getAttribute("type");
+        Assert.assertEquals(actualResultPassword, expectedResultPassword);
+    }
+
+
+    @Test
+    public void displaysErrorsWhenUserDoesNotExist() {
+        homePage.goToLoginPage();
+
+        loginPage.fakeLogin();
+        String expectedResultErrorMessage = ("User does not exists");
+        String actualResultErrorMessage = loginPage.getErrorMessageUser().getText();
+        Assert.assertTrue(actualResultErrorMessage.contains(expectedResultErrorMessage));
+
+        String expectedResultUrl = ("https://vue-demo.daniel-avellaneda.com/login");
+        String actualResultUrl = driver.getCurrentUrl();
+        Assert.assertEquals(actualResultUrl, expectedResultUrl);
+
+    }
+
+    @Test
+    public void displaysErrorsWhenPasswordIsWrong() {
+        homePage.goToLoginPage();
+
+        loginPage.fakeLogin2();
+        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li"));
+        String expectedResultErrorMessage = ("Wrong password");
+        String actualResultErrorMesaage = loginPage.getErrorMessagePassword().getText();
+        Assert.assertEquals(actualResultErrorMesaage, expectedResultErrorMessage);
+
+        String expectedResultUrl = ("https://vue-demo.daniel-avellaneda.com/login");
+        String actualResultUrl = driver.getCurrentUrl();
+        Assert.assertEquals(actualResultUrl, expectedResultUrl);
+    }
+
+    @Test
+    public void login() {
+        homePage.goToLoginPage();
+
+        loginPage.login();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //Thread sleep is necessary to wait for page redirection.
+        String expectedResult = "https://vue-demo.daniel-avellaneda.com/home";
+        String actualResult = driver.getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
 
-        driver.get("https://vue-demo.daniel-avellaneda.com/home");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        String expectedResult2 = "https://vue-demo.daniel-avellaneda.com/login";
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        String url2 = driver.getCurrentUrl();
-        String actualResult2 = url;
-        Assert.assertEquals(actualResult2,expectedResult2);
-
-
+        loginPage.getLogoutButton().click();
     }
 
+    @Test
+    public void logout() {
+        homePage.goToLoginPage();
+
+        loginPage.login();
+        Assert.assertEquals(true, loginPage.getLogoutButton().isDisplayed());
+
+        loginPage.getLogoutButton().click();
+        String expectedResultUrl1 = ("https://vue-demo.daniel-avellaneda.com/login");
+        String actualResultUrl1 = driver.getCurrentUrl();
+        Assert.assertEquals(actualResultUrl1, expectedResultUrl1);
+
+        homePage.getHomePage();
+        String expectedResultUrl2 = "https://vue-demo.daniel-avellaneda.com/login";
+        String actualResultUrl2 = driver.getCurrentUrl();
+        Assert.assertEquals(actualResultUrl2, expectedResultUrl2);
+    }
 }

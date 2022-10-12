@@ -5,37 +5,37 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class AuthRoutesTest extends BaseTest{
+public class AuthRoutesTest extends BaseTest {
 
     @Test
-    public void authRoutesTest1() {
+    public void forbidsVisitsToHomeUrlIfNotAuthenticated() {
         authRoutePage.openHomePage();
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
         String actualResult = driver.getCurrentUrl();
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void authRoutesTest2() {
+    public void forbidsVisitsToProfileUrlIfNotAuthenticated() {
         authRoutePage.openProfilePage();
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
         String actualResult = driver.getCurrentUrl();
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void authRoutesTest3() {
+    public void forbidsVisitsToAdminCitiesUrlIfNotAuthenticated() {
         authRoutePage.openAdminCitiesPage();
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
         String actualResult = driver.getCurrentUrl();
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void authRoutesTest4() {
+    public void forbidsVisitsToAdminUsersUrlIfNotAuthenticated() {
         authRoutePage.openAdminUsersPage();
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
         String actualResult = driver.getCurrentUrl();
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }

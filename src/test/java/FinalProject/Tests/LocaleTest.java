@@ -11,8 +11,7 @@ public class LocaleTest extends BaseTest {
     public void LocaleTest1() {
         localePage.esLaguage();
         String expectedResult = "Página de aterrizaje";
-        WebElement header = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
-        String actualResult = header.getText();
+        String actualResult = localePage.getHeader().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
     }
 
@@ -20,8 +19,7 @@ public class LocaleTest extends BaseTest {
     public void LocaleTest2() {
         localePage.enLaguage();
         String expectedResult = "Landing";
-        WebElement header = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
-        String actualResult = header.getText();
+        String actualResult = localePage.getHeader().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
     }
 
@@ -29,8 +27,7 @@ public class LocaleTest extends BaseTest {
     public void LocaleTest3() {
         localePage.frLaguage();
         String expectedResult = "Page d'atterrissage";
-        WebElement header = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
-        String actualResult = header.getText();
+        String actualResult = localePage.getHeader().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
     }
 }

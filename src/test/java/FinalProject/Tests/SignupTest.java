@@ -2,79 +2,70 @@ package FinalProject.Tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class SignupTest extends BaseTest{
+public class SignupTest extends BaseTest {
 
     @Test
-    public void signupTest1 () {
+    public void visitSignUpPage() {
         homePage.goToSignupPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/signup";
-        String url = driver.getCurrentUrl();
-        String actualResult = url;
-        Assert.assertEquals(actualResult,expectedResult);
+        String actualResult = driver.getCurrentUrl();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void signupTest2 () {
+    public void checksInputTypes() {
         homePage.goToSignupPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        String expectedResult = "email";
-        String actualResult = signupPage.getEmailField().getAttribute("type");
-        Assert.assertEquals(actualResult,expectedResult);
+
+        String expectedResultEmail = "email";
+        String actualResultEmail = signupPage.getEmailField().getAttribute("type");
+        Assert.assertEquals(actualResultEmail, expectedResultEmail);
 
 
-        String expectedResult2 = "password";
-        String actualResult2 = signupPage.getPasswordField().getAttribute("type");
-        Assert.assertEquals(actualResult2,expectedResult2);
+        String expectedResultPassword = "password";
+        String actualResultPassword = signupPage.getPasswordField().getAttribute("type");
+        Assert.assertEquals(actualResultPassword, expectedResultPassword);
 
-        String expectedResult3 = "password";
-        String actualResult3 = signupPage.getConfirmPasswordField().getAttribute("type");
-        Assert.assertEquals(actualResult3,expectedResult3);
-
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        String expectedResultConfirmPassword = "password";
+        String actualResultConfirmPassword = signupPage.getConfirmPasswordField().getAttribute("type");
+        Assert.assertEquals(actualResultConfirmPassword, expectedResultConfirmPassword);
     }
 
     @Test
-    public void signupTest3 () {
+    public void displayErrorsWhenUserAlreadyExists() {
         homePage.goToSignupPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         signupPage.signup();
-        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[3]/div/div/div/div/div[1]"));
-        String expectedResult = ("E-mail already exists");
-        String actualResult = errorMessage.getText();
-        Assert.assertTrue(actualResult.contains(expectedResult));
 
-        String expectedResult2 = ("https://vue-demo.daniel-avellaneda.com/signup");
-        String url = driver.getCurrentUrl();
-        String actualResult2 = url;
-        Assert.assertEquals(actualResult2, expectedResult2);
+        String expectedResultErrorMessage = ("E-mail already exists");
+        String actualResultErrorMessage = signupPage.getErrorMessage().getText();
+        Assert.assertTrue(actualResultErrorMessage.contains(expectedResultErrorMessage));
+
+        String expectedResultUrl = ("https://vue-demo.daniel-avellaneda.com/signup");
+        String actualResultUrl = driver.getCurrentUrl();
+        Assert.assertEquals(actualResultUrl, expectedResultUrl);
     }
 
     @Test
-    public void signupTest4 () {
+    public void signup() {
         homePage.goToSignupPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         signupPage.signupStudent();
-
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"app\"]/div[4]/div/div"));
+        //Thread sleep is necessary to wait for message being displayed
         String expectedResult = ("IMPORTANT: Verify your account");
-        String actualResult = errorMessage.getText();
+        String actualResult = signupPage.getMessageVerifyAccount().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
+
+        signupPage.getCloseButton().click();
+        signupPage.getLogoutButton().click();
     }
 
 }

@@ -26,8 +26,10 @@ public class ProfilePage extends HomePage {
     private String city = faker.address().city();
     private String country = faker.address().country();
 
-    private String twitter = "https://twitter.com";
-    private String gitHub = "https://github.com";
+    private String twitter = "https://twitter.com" + getFaker().name().firstName();
+    private String gitHub = "https://github.com" + getFaker().name().firstName();
+
+    private By messageSaved = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]");
 
 
     public ProfilePage(WebDriver driver, WebDriverWait driverWait) {
@@ -65,6 +67,7 @@ public class ProfilePage extends HomePage {
     public WebElement getSaveButton() {
         return getDriver().findElement(saveButton);
     }
+    public WebElement getMessageSaved () {return getDriver().findElement(messageSaved);}
 
 
     public String getName() {
