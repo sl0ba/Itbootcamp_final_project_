@@ -20,14 +20,14 @@ public class ProfilePage extends HomePage {
     private By saveButton = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[2]/span/form/div/div/div[8]/button");
 
 
-    private Faker faker = new Faker();
-    private String name = faker.name().fullName();
-    private String phoneNumber = faker.phoneNumber().phoneNumber();
-    private String city = faker.address().city();
-    private String country = faker.address().country();
 
-    private String twitter = "https://twitter.com" + getFaker().name().firstName();
-    private String gitHub = "https://github.com" + getFaker().name().firstName();
+    private String name = getFaker().name().fullName();
+    private String phoneNumber = getFaker().phoneNumber().phoneNumber();
+    private String city = getFaker().address().city();
+    private String country = getFaker().address().country();
+
+    private String twitter = "https://twitter.com" + getFaker().name().firstName().toLowerCase();
+    private String gitHub = "https://github.com" + getFaker().name().firstName().toLowerCase();
 
     private By messageSaved = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]");
 
@@ -48,7 +48,7 @@ public class ProfilePage extends HomePage {
         return getDriver().findElement(phoneField);
     }
 
-    public WebElement getcityField() {
+    public WebElement getCityField() {
         return getDriver().findElement(cityField);
     }
 
@@ -96,18 +96,36 @@ public class ProfilePage extends HomePage {
 
     public void editProfile() {
         getMyProfileButton().click();
+        getNameField().click();
         getNameField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
         getNameField().sendKeys(name);
+
+        getPhoneField().click();
         getPhoneField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
         getPhoneField().sendKeys(phoneNumber);
-        getcityField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
-        getcityField().sendKeys(city);
+
+        getCityField().click();
+        getCityField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
+        getCityField().sendKeys(city);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        getCountryField().click();
         getCountryField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
         getCountryField().sendKeys(country);
+
+        getTwitterField().click();
         getTwitterField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
         getTwitterField().sendKeys(twitter);
+
+        getGitHubField().click();
         getGitHubField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
         getGitHubField().sendKeys(gitHub);
+
         getSaveButton().click();
 
     }
